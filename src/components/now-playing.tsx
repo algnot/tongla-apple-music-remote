@@ -97,23 +97,27 @@ export function NowPlaying() {
   };
 
   return (
-    <Card className="w-full rounded-md border-t p-4 flex items-center gap-4">
-      {nowPlaying?.info?.artwork?.url ? (
-        <Image
-          src={nowPlaying?.info?.artwork?.url ?? ""}
-          alt="Album Cover"
-          width={80}
-          height={80}
-          className="h-20 w-20 object-cover"
-        />
-      ) : (
-        <div className="w-full h-full bg-gray-200"></div>
-      )}
+    <Card className="w-full rounded-md border-t p-4 flex items-center gap-4 flex-col sm:flex-row">
+      <div className="flex gap-4 w-full">
+        {nowPlaying?.info?.artwork?.url ? (
+          <Image
+            src={nowPlaying?.info?.artwork?.url ?? ""}
+            alt="Album Cover"
+            width={80}
+            height={80}
+            className="h-20 w-20 object-cover rounded-sm"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-200"></div>
+        )}
 
-      <div className="flex-1">
-        <h3 className="text-lg font-semibold">{nowPlaying?.info?.name}</h3>
-        <p className="text-sm text-gray-400">{nowPlaying?.info?.artistName}</p>
-        <Progress value={progress} className="mt-2" />
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold">{nowPlaying?.info?.name}</h3>
+          <p className="text-sm text-gray-400">
+            {nowPlaying?.info?.artistName}
+          </p>
+          <Progress value={progress} className="mt-2" />
+        </div>
       </div>
 
       <div className="flex gap-2">
