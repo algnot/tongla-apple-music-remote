@@ -105,3 +105,12 @@ export interface SearchSongResponse {
     results: Results;
     meta: Meta;
 }
+
+export interface Queue {
+    id: string;
+    type: string;
+    assetURL: string;
+    flavor: string;
+    attributes: SongAttributes;
+    playbackType: number;
+}

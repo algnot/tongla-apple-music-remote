@@ -49,7 +49,7 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
           </Label>
 
           {query && (
-            <div className="absolute top-9 left-0 right-0 bg-primary-foreground shadow-md max-h-60 overflow-y-auto rounded-md">
+            <div className="absolute top-14 left-0 right-0 bg-primary-foreground shadow-md max-h-60 overflow-y-auto rounded-md">
               <ul className="p-2">
                 {results.length > 0 ? (
                   results.filter((v) => v.kind == "topResults" && v.content?.type == "songs").map((result) => (
@@ -76,7 +76,7 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
             placeholder="Search"
             value={query}
             onChange={handleSearch}
-            className="pl-8"
+            className="pl-8 h-12"
           />
           <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
         </SidebarGroupContent>

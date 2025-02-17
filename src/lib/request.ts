@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { ErrorResponse, IsPlayingResponse, MusicResponse, SearchSongResponse } from "@/types/request";
+import { ErrorResponse, IsPlayingResponse, MusicResponse, Queue, SearchSongResponse } from "@/types/request";
 
 const handlerError = (error: unknown): ErrorResponse => {
     if (axios.isAxiosError(error)) {
@@ -81,6 +81,15 @@ export class BackendClient {
                 "path": `/v1/catalog/th/search/suggestions?l=en-GB&platform=web&art%5Burl%5D=f&term=${searchString}&fields%5Balbums%5D=artwork%2Cname%2CplayParams%2Curl%2CartistName%2Cid%2CcontentRating&fields%5Bartists%5D=url%2Cname%2Cartwork%2Cid&fields%5Bsongs%5D=artwork%2Cname%2CplayParams%2Curl%2CartistName%2Cid%2CcontentRating%2CalbumName&kinds=terms%2CtopResults&limit%5Bresults%3Aterms%5D=1&limit%5Bresults%3AtopResults%5D=10&omit%5Bresource%5D=autos&types=activities%2Calbums%2Cartists%2Ceditorial-items%2Cmusic-movies%2Cplaylists%2Crecord-labels%2Csongs%2Cstations`
             });
             return response.data.data;
+        } catch (e) {
+            return handlerError(e);
+        }
+    }
+
+    async getQueue(): Promise<Queue[] | ErrorResponse> {
+        try {
+            const response = await client.get("/api/v1/playback/queue");
+            return response.data;
         } catch (e) {
             return handlerError(e);
         }
