@@ -56,18 +56,9 @@ export default function Page() {
   return (
     <div className="flex flex-1 flex-col p-4 pt-0">
       <div className="font-bold text-xl">Queue</div>
-      <div className="grid grid-cols-[80px,1fr,1fr,1fr] gap-4 p-2 rounded-md font-semibold">
-        <div></div>
-        <div>Title</div>
-        <div>Artist</div>
-        <div>Album</div>
-      </div>
       <div className="max-h-[calc(100vh-200px)] overflow-y-scroll">
         {queues.map((queue, index) => (
-          <div
-            key={index}
-            className="grid grid-cols-[80px,1fr,1fr,1fr] gap-4 border-b-2 py-2 items-center"
-          >
+          <div key={index} className="flex gap-6 border-b-2 py-2 items-center">
             <Image
               src={(queue?.attributes?.artwork?.url ?? "")
                 .replace("{w}", "40")
@@ -78,12 +69,11 @@ export default function Page() {
               height={40}
               className="rounded-md"
             />
-            <div>{queue.attributes?.name ?? "Unknown"}</div>
-            <div className="text-gray-400">
-              {queue.attributes?.artistName ?? "Unknown"}
-            </div>
-            <div className="text-gray-400">
-              {queue.attributes?.albumName ?? "Unknown"}
+            <div className="">
+              <div>{queue.attributes?.name ?? "Unknown"}</div>
+              <div className="text-gray-400">
+                {queue.attributes?.artistName ?? "Unknown"}
+              </div>
             </div>
           </div>
         ))}
