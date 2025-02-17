@@ -60,3 +60,48 @@ export interface IsPlayingResponse {
     is_playing: boolean;
 };
 
+export interface PlayParams {
+    id: string;
+    kind: string;
+}
+
+export interface SongAttributes {
+    name: string;
+    albumName: string;
+    artistName: string;
+    artwork: Artwork;
+    url: string;
+    playParams: PlayParams;
+}
+
+export interface SongContent {
+    id: string;
+    type: string;
+    href: string;
+    attributes: SongAttributes;
+    meta?: {
+        contentVersion: Record<string, number>;
+    };
+}
+
+export interface Suggestion {
+    kind: string;
+    searchTerm?: string;
+    displayTerm?: string;
+    content?: SongContent;
+}
+
+export interface Results {
+    suggestions: Suggestion[];
+}
+
+export interface Meta {
+    metrics: {
+        dataSetId: string;
+    };
+}
+
+export interface SearchSongResponse {
+    results: Results;
+    meta: Meta;
+}
