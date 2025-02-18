@@ -94,4 +94,28 @@ export class BackendClient {
             return handlerError(e);
         }
     }
+
+    async playNext(id: string, type: string): Promise<string | ErrorResponse> {
+        try {
+            const response = await client.post("/api/v1/playback/play-next", {
+                id,
+                type
+            });
+            return response.data;
+        } catch (e) {
+            return handlerError(e);
+        }
+    }
+
+    async playLater(id: string, type: string): Promise<string | ErrorResponse> {
+        try {
+            const response = await client.post("/api/v1/playback/play-later", {
+                id,
+                type
+            });
+            return response.data;
+        } catch (e) {
+            return handlerError(e);
+        }
+    }
 }

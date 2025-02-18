@@ -64,7 +64,7 @@ export function NowPlaying() {
 
     socket.on("API:Playback", (message) => {
       if (message.type != "playbackStatus.playbackTimeDidChange") {
-        window.location.reload();
+        fetchData();
       } else {
         setProgress(
           (message.data.currentPlaybackTime /

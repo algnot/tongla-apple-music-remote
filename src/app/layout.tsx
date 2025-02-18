@@ -10,6 +10,7 @@ import { SearchForm } from "@/components/search-form";
 import { NowPlaying } from "@/components/now-playing";
 import { AlertDialogProvider } from "@/components/provider/alert-provider";
 import { LoadingProvider } from "@/components/provider/loading-provider";
+import { AddSongProvider } from "@/components/provider/add-song-provider";
 
 export const metadata: Metadata = {
   title: "Tongla Music App",
@@ -27,19 +28,21 @@ export default function RootLayout({
         <AlertDialogProvider>
           <SidebarProvider>
             <LoadingProvider>
-              <AppSidebar />
-              <SidebarInset>
-                <header className="flex h-16 my-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                  <div className="flex items-center gap-2 px-4 w-full">
-                    <SidebarTrigger className="-ml-1" />
-                    <SearchForm className="my-6 w-full" />
-                  </div>
-                </header>
-                {children}
-                <footer className="sticky bottom-0 w-full p-4">
-                  <NowPlaying />
-                </footer>
-              </SidebarInset>
+              <AddSongProvider>
+                <AppSidebar />
+                <SidebarInset>
+                  <header className="flex h-16 my-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                    <div className="flex items-center gap-2 px-4 w-full">
+                      <SidebarTrigger className="-ml-1" />
+                      <SearchForm className="my-6 w-full" />
+                    </div>
+                  </header>
+                  {children}
+                  <footer className="sticky bottom-0 w-full p-4">
+                    <NowPlaying />
+                  </footer>
+                </SidebarInset>
+              </AddSongProvider>
             </LoadingProvider>
           </SidebarProvider>
         </AlertDialogProvider>

@@ -6,6 +6,7 @@ import { BackendClient } from "@/lib/request";
 import { isErrorResponse, Queue } from "@/types/request";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 export default function Page() {
   const client = new BackendClient();
@@ -14,7 +15,7 @@ export default function Page() {
   const setLoading = useLoadingContext();
 
   const fetchData = async () => {
-    setLoading(true);
+    setLoading(false);
     const responseNowPlaying = await client.getNowPlaying();
 
     if (isErrorResponse(responseNowPlaying)) {
@@ -47,6 +48,34 @@ export default function Page() {
     }
     setQueues(queueList);
   };
+
+  useEffect(() => {
+    fetchData();
+
+    const socket = io(process.env.NEXT_PUBLIC_BACKEND_PATH, {
+      transports: ["websocket"],
+      path: "/socket.io/",
+    });
+
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+
+    socket.on("API:Playback", (message) => {
+      if (message.type != "playbackStatus.playbackTimeDidChange") {
+        fetchData();
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from WebSocket server");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchData();

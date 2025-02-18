@@ -13,6 +13,7 @@ import { isErrorResponse, Suggestion } from "@/types/request";
 import { useAlertContext } from "./provider/alert-provider";
 import { useLoadingContext } from "./provider/loading-provider";
 import Image from "next/image";
+import { useAddSongContext } from "./provider/add-song-provider";
 
 export function SearchForm({ ...props }: React.ComponentProps<"form">) {
   const client = new BackendClient();
@@ -20,6 +21,7 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
   const setLoading = useLoadingContext();
   const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState<Suggestion[]>([]);
+  const setAddSong = useAddSongContext();
 
   const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = event.target.value;
@@ -37,7 +39,7 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
       return;
     }
 
-    setResults(response.results.suggestions)
+    setResults(response.results.suggestions);
   };
 
   return (
@@ -52,18 +54,47 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
             <div className="absolute top-14 left-0 right-0 bg-primary-foreground shadow-md max-h-60 overflow-y-auto rounded-md">
               <ul className="p-2">
                 {results.length > 0 ? (
-                  results.filter((v) => v.kind == "topResults" && v.content?.type == "songs").map((result) => (
-                    <li
-                      key={result.content?.id}
-                      className="py-2 px-4 hover:bg-accent cursor-pointer flex items-center gap-4"
-                    >
-                      <Image src={(result.content?.attributes.artwork.url ?? "").replace("{w}", "120").replace("{h}", "120").replace("{f}", "jpg")} alt={result.content?.attributes.name ?? ""} width={40} height={40} className="rounded-md"  />
-                      <div>
-                        <div className="text-md">{result.content?.attributes.name}</div>
-                        <div className="text-sm text-gray-400">{result.content?.attributes.artistName}</div>
-                      </div>
-                    </li>
-                  ))
+                  results
+                    .filter(
+                      (v) =>
+                        v.kind == "topResults" && v.content?.type == "songs"
+                    )
+                    .map((result) => (
+                      <li
+                        key={result.content?.id}
+                        className="py-2 px-4 hover:bg-accent cursor-pointer flex items-center gap-4"
+                        onClick={() => {
+                          setAddSong(
+                            result.content?.id ?? "",
+                            result.content?.attributes.name ?? "",
+                            result.content?.attributes.artistName ?? "",
+                            (result.content?.attributes.artwork.url ?? "")
+                              .replace("{w}", "120")
+                              .replace("{h}", "120")
+                              .replace("{f}", "jpg")
+                          );
+                        }}
+                      >
+                        <Image
+                          src={(result.content?.attributes.artwork.url ?? "")
+                            .replace("{w}", "120")
+                            .replace("{h}", "120")
+                            .replace("{f}", "jpg")}
+                          alt={result.content?.attributes.name ?? ""}
+                          width={40}
+                          height={40}
+                          className="rounded-md"
+                        />
+                        <div>
+                          <div className="text-md">
+                            {result.content?.attributes.name}
+                          </div>
+                          <div className="text-sm text-gray-400">
+                            {result.content?.attributes.artistName}
+                          </div>
+                        </div>
+                      </li>
+                    ))
                 ) : (
                   <li className="p-4">No results found</li>
                 )}
