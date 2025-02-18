@@ -118,4 +118,13 @@ export class BackendClient {
             return handlerError(e);
         }
     }
+
+    async clearQueue(): Promise<boolean | ErrorResponse> {
+        try {
+            await client.post("/api/v1/playback/queue/clear-queue");
+            return true;
+        } catch (e) {
+            return handlerError(e);
+        }
+    }
 }

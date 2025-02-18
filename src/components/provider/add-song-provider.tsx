@@ -32,12 +32,18 @@ export function AddSongDialogComponent({
 
   const actionPlayNext = async () => {
     await client.playNext(songId, "songs");
-    window.location.reload();
+    onCancel();
+    setInterval(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const actionPlayLater = async () => {
     await client.playLater(songId, "songs");
-    window.location.reload();
+    onCancel();
+    setInterval(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   return (

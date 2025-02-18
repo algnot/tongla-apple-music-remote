@@ -82,9 +82,24 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const actionClearQueue = async () => {
+    await client.clearQueue();
+    setInterval(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
   return (
     <div className="flex flex-1 flex-col p-4 pt-0">
-      <div className="font-bold text-xl">Queue</div>
+      <div className="flex justify-between items-end">
+        <div className="font-bold text-xl">Queue</div>
+        <div
+          className="text-blue-500 underline cursor-pointer"
+          onClick={actionClearQueue}
+        >
+          clear queue
+        </div>
+      </div>
       <div className="max-h-[calc(100vh-200px)] overflow-y-scroll">
         {queues.map((queue, index) => (
           <div key={index} className="flex gap-6 border-b-2 py-2 items-center">
